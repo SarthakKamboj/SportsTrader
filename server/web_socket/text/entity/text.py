@@ -9,3 +9,7 @@ class Text:
         self.text = text
         self.account_id = account_id
         self.chat_id = chat_id
+
+
+def hi():
+    return 'hi'
