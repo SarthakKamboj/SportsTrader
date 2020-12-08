@@ -1,5 +1,6 @@
 from peewee import Table, fn
 from playhouse.pool import PooledPostgresqlDatabase
+from typing import List
 
 
 class DB_Interface:
@@ -10,7 +11,7 @@ class DB_Interface:
         Message = Table('message', cols)
         self.Message = Message.bind(pg_db)
 
-    def insert_text(self, db_args):
+    def insert_text(self, db_args) -> List:
         self.pg_db.connect()
         account_id, chat_id = db_args.get('account_id'), db_args.get(
             'chat_id')
@@ -27,7 +28,7 @@ class DB_Interface:
         self.pg_db.close()
         return list(query)
 
-    def insert_image(self, db_args):
+    def insert_image(self, db_args) -> List:
         self.pg_db.connect()
         account_id, chat_id = db_args.get('account_id'), db_args.get(
             'chat_id')
@@ -43,7 +44,7 @@ class DB_Interface:
         self.pg_db.close()
         return list(query)
 
-    def get_chat_messages(self, chat_args):
+    def get_chat_messages(self, chat_args) -> List:
         self.pg_db.connect()
         num_texts, chat_id = chat_args.get(
             'num_texts'), chat_args.get('chat_id')
@@ -59,8 +60,6 @@ class DB_Interface:
 pg_db = PooledPostgresqlDatabase('test', max_connections=8, user='na', password='na',
                                  host='test', port=5432)
 
-# print(pg_db.connect())
-# print(pg_db.close())
 db_interface = DB_Interface(pg_db)
 db_args = {
     'account_id': 1,
