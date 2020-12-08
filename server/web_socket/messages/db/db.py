@@ -56,8 +56,8 @@ class DB_Interface:
         return list(query)
 
 
-pg_db = PooledPostgresqlDatabase('image_editor', max_connections=8, user='postgres', password='Sarthak20',
-                                 host='image-editor.cdebttpbq31d.us-west-1.rds.amazonaws.com', port=5432)
+pg_db = PooledPostgresqlDatabase('test', max_connections=8, user='na', password='na',
+                                 host='test', port=5432)
 
 # print(pg_db.connect())
 # print(pg_db.close())
