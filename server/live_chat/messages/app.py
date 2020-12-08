@@ -78,7 +78,7 @@ def gen_init_info(account_id: int):
     init_info = {
         'timestamp': timestamp,
         'account_id': account_id,
-        'message': 'you are now part of the chat'
+        'message': f'you are now part of the chat'
     }
     return json.dumps(init_info)
 
@@ -95,6 +95,7 @@ def process_cookies(cookies):
 async def server(websocket, path: str):
     cookies = websocket.request_headers["Cookie"]
     cookies = process_cookies(cookies)
+    print(cookies)
     """
     TODO fetch account_id using the cookie qid value and send it to the user
     """
