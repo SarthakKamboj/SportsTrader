@@ -2,41 +2,17 @@ from datetime import datetime as dt
 import json
 import asyncio
 import websockets
-
-# STATE = {
-#     'num_users': 0
-# }
+from .use_cases.index import get_use_cases
 
 ROOMS = {}
-
-
-# def message():
-#     return json.dumps({'timestamp': str(dt.now()), **STATE})
-
-
-# async def notify_state():
-#     if USERS:
-#         data_to_send = message()
-#         await asyncio.wait([user.send(data_to_send) for user in USERS])
-
-
-# def increment_users():
-#     STATE['num_users'] += 1
-
-
-# def decrement_users():
-#     cur_num_users = STATE['num_users']-1
-#     STATE['num_users'] = max(0, cur_num_users)
+USE_CASES = get_use_cases()
 
 
 async def register_conn(chat_id, conn):
-    # USERS.add(conn)
     ROOMS[chat_id].add(conn)
     """
     TODO use case for querying the latest messages for the chat and giving it to the user
     """
-    # increment_users()
-    # await notify_state()
 
 
 def handle_create_chat_room(chat_id):
@@ -92,10 +68,16 @@ def process_cookies(cookies):
     return processed_cookies
 
 
+def get_account_id(cookies):
+    qid = cookies['qid']
+    print(qid)
+    return 5
+
+
 async def server(websocket, path: str):
     cookies = websocket.request_headers["Cookie"]
     cookies = process_cookies(cookies)
-    print(cookies)
+    account_id = get_account_id(cookies)
     """
     TODO fetch account_id using the cookie qid value and send it to the user
     """

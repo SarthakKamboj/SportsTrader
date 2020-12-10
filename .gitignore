@@ -1,4 +1,7 @@
 sport_trader_env
 server/node_modules
 server/dist
+server/live_chat_express/node_modules
+server/live_chat_express/chat/node_modules
+server/live_chat_express/messages/node_modules
 .env

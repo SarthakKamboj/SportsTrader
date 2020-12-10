@@ -46,25 +46,26 @@ class DB_Interface:
 
     def get_chat_messages(self, chat_args) -> List:
         self.pg_db.connect()
-        num_texts, chat_id = chat_args.get(
-            'num_texts'), chat_args.get('chat_id')
-        if not num_texts:
-            num_texts = 10
-        query = self.Message.select().where(self.Message.chat_id == chat_id).order_by(
-            fn.COUNT(self.Message.created_at).desc()).limit(num_texts)
+        num_mgs, chat_id = chat_args.get(
+            'num_mgs'), chat_args.get('chat_id')
+        if not num_mgs:
+            num_mgs = 10
+        query = (self.Message.select().where(
+            self.Message.chat_id == chat_id).order_by(self.Message.created_at.desc())).limit(num_mgs)
 
         self.pg_db.close()
         return list(query)
 
 
-pg_db = PooledPostgresqlDatabase('test', max_connections=8, user='na', password='na',
-                                 host='test', port=5432)
+pg_db = PooledPostgresqlDatabase('image_editor', max_connections=8, user='postgres', password='Sarthak20',
+                                 host='image-editor.cdebttpbq31d.us-west-1.rds.amazonaws.com', port=5432)
 
 db_interface = DB_Interface(pg_db)
 db_args = {
-    'account_id': 1,
+    # 'account_id': 1,
     'chat_id': 1,
-    'text': 'inserted with pooling'
+    # 'text': 'inserted with pooling'
     # 'image_url': 'https://cdn.vox-cdn.com/thumbor/Pkmq1nm3skO0-j693JTMd7RL0Zk=/0x0:2012x1341/1200x800/filters:focal(0x0:2012x1341)/cdn.vox-cdn.com/uploads/chorus_image/image/47070706/google2.0.0.jpg'
 }
-print(db_interface.insert_text(db_args))
+for msg in db_interface.get_chat_messages(db_args):
+    print(msg)
